@@ -6,4 +6,8 @@
 * FileTable
 
 References:
+* [Docs: FileStream, FileTable, & BLOB](https://docs.microsoft.com/en-us/sql/relational-databases/blob/binary-large-object-blob-data-sql-server)
+  * FileTable
+    * [Load Files](https://docs.microsoft.com/en-us/sql/relational-databases/blob/load-files-into-filetables)
+    * [Access FileTables with File Input-Output APIs](https://docs.microsoft.com/en-us/sql/relational-databases/blob/access-filetables-with-file-input-output-apis)
 * [Pluralsight: SQL Server 2012-2014 Native File Streaming](https://app.pluralsight.com/library/courses/sql-server-2012-2014-native-file-streaming/table-of-contents)

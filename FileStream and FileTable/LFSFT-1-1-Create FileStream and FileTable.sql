@@ -24,6 +24,7 @@ FROM   [sys].[database_filestream_options] [dfo]
 WHERE  DB_NAME([dfo].[database_id]) = 'LearnFileTable';
 
 
+
 /* Enable File Stream for SQL Server */
 /* --> Use "SQL Server Configuration Manager"  > "SQL Server Services" > "FILESTREAM" Properties */
 /* --> Configure FILESTREAM Access Level for SQL Server instance */
@@ -36,6 +37,18 @@ RECONFIGURE
 GO
 EXEC [sp_configure] [filestream_access_level];  -- See current config value and running value 
 GO
+
+USE [LearnFileTable]
+GO
+SELECT NAME,
+       CASE
+         WHEN value = 0 THEN 'FILESTREAM is Disabled for this instance'
+         WHEN value = 1 THEN 'FILESTREAM is Enabled for Transact-SQL access for this instance'
+         WHEN value = 2 THEN 'FILESTREAM is Enabled for Transact-SQL and Win32 for this instance'
+       END AS [FILESTREAMOption]
+FROM   [sys].[configurations]
+WHERE  [NAME] = 'filestream access level';
+
 
 
 
@@ -73,6 +86,10 @@ SELECT [fg].[name], [fg].[data_space_id],
        [fg].[is_read_only] 
 FROM   [LearnFileTable].[sys].[filegroups] [fg]; 
 
+-- List all files used in the database (MDF, LDF, FileTable)
+SELECT [df].[name], [df].[type_desc], [df].[physical_name]
+FROM   [LearnFileTable].[sys].[database_files] [df]
+
 
 /* Create [LearnFileTable] DATABASE with FileTable */
 /*
@@ -100,8 +117,6 @@ GO
 ALTER DATABASE [LearnFileTable] ADD FILEGROUP [LFTFileStreamDataGroup1] CONTAINS FILESTREAM
 ALTER DATABASE [LearnFileTable] ADD FILE (NAME = LearnFileTable_Blobs, FILENAME = 'D:\SQL_FILETABLE\LearnFileTable') TO FILEGROUP [LFTFileStreamDataGroup1];
 */
-
-
 
 /* Creating a FileTable. */
 /*

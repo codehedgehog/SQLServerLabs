@@ -48,7 +48,9 @@ FROM   [dbo].[PhotoAlbum] [pa] WITH (NOLOCK);
 SELECT [pa].* FROM [dbo].[PhotoAlbum] [pa] WITH (NOLOCK);
 
 -- Forcing garbage collection won't delete the file without a BACKUP if using FULL recovery model
-EXEC [dbo].[sp_filestream_force_garbage_collection];
+EXEC [dbo].sp_filestream_force_garbage_collection;
+EXEC [dbo].sp_filestream_force_garbage_collection @dbname = 'DatabaseNameHere'
+
 
 -- Switch from FULL to SIMPLE recovery model
 SELECT name, recovery_model_desc FROM sys.databases WHERE name = 'LearnFileTable'
